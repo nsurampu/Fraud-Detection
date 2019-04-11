@@ -4,7 +4,7 @@ This implementation of **Local Outlier Factor (LOF)** attempts to detect frauds 
 
 The database can be found here: ![Credit Card Fraud Detection (Kaggle)](https://www.kaggle.com/mlg-ulb/creditcardfraud)
 
-## The project is divided into three major parts
+The project is divided into three major parts
 1. Preprocessing
 2. LOF Calculation and Fraud Detection
 3. Visualization
@@ -33,8 +33,8 @@ The current implementation of LOF using a threshold of 1.5 consistently gives an
 permutations of the dataset, with an average accuracy of **93%**.
 
 An sample run of the dataset on the first **500** samples gives:
-**Accuracy: 96%**
-**Run Time: 15 seconds**
+<br>**Accuracy: 96%**
+<br>**Run Time: 15 seconds**
 
 **Scatter plot after dimensional reduction:**
 
