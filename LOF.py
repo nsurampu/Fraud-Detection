@@ -7,6 +7,9 @@ from collections import OrderedDict
 import itertools
 import time
 from sklearn.metrics import accuracy_score
+import visualization
+
+visuals = visualization.Visualization()
 
 class Local_Outlier_Factor:
 
@@ -16,6 +19,7 @@ class Local_Outlier_Factor:
         self.SAMPLE_DATA = None
         self.DATA_FLAG = True
         self.THRESH = 1.5
+        self.REDUCED_POINTS = []
 
     def neighborhood(self):
         if self.DATA_FLAG:
@@ -26,7 +30,9 @@ class Local_Outlier_Factor:
         reach_distances = []
         read_index1 = 0
         neighbors_dict = {}
+        reduced_points = []
         for reading1 in val_data:
+            self.REDUCED_POINTS.append(visuals.dimension_reduction(reading1))
             neighbors = {}
             neighbors_dict[read_index1] = []
             read_index2 = 0
@@ -129,11 +135,11 @@ if __name__ == "__main__":
     data = credit_data[req_cols]
     sample_data = [[0,0],[0,1],[1,1],[3,0]]   # some sample data
 
-    lof_class.DATA = data[0:10000]
+    lof_class.DATA = data[0:100]
     lof_class.SAMPLE_DATA = sample_data
     lof_class.DATA_FLAG = True
     lof_class.K = 5
-    val_y = y[0:10000]
+    val_y = y[0:100]
 
     pool = ThreadPool(processes=cpu_count())
 
@@ -153,3 +159,4 @@ if __name__ == "__main__":
     # print(lofs)
     print("Accuracy: " + str(accuracy_score(lofs, val_y)))
     print("Time: " + str(run_time))
+    print(lof_class.REDUCED_POINTS)
