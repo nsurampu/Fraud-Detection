@@ -105,8 +105,10 @@ class Local_Outlier_Factor:
             # specific for fraud detection
             if lof > self.THRESH:
                 lof = 1
+                visuals.OUTLIERS.append(self.REDUCED_POINTS[element])
             else:
                 lof = 0
+                visuals.NON_OUTLIERS.append(self.REDUCED_POINTS[element])
             lofs.append(lof)
 
         return lofs
@@ -135,11 +137,11 @@ if __name__ == "__main__":
     data = credit_data[req_cols]
     sample_data = [[0,0],[0,1],[1,1],[3,0]]   # some sample data
 
-    lof_class.DATA = data[0:100]
+    lof_class.DATA = data[0:500]
     lof_class.SAMPLE_DATA = sample_data
     lof_class.DATA_FLAG = True
     lof_class.K = 5
-    val_y = y[0:100]
+    val_y = y[0:500]
 
     pool = ThreadPool(processes=cpu_count())
 
@@ -159,4 +161,4 @@ if __name__ == "__main__":
     # print(lofs)
     print("Accuracy: " + str(accuracy_score(lofs, val_y)))
     print("Time: " + str(run_time))
-    print(lof_class.REDUCED_POINTS)
+    visuals.outlier_plot()

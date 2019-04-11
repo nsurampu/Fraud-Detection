@@ -3,7 +3,7 @@ import math
 
 class Visualization:
 
-    def __init__():
+    def __init__(self):
         self.OUTLIERS = []
         self.NON_OUTLIERS = []
 
@@ -27,4 +27,10 @@ class Visualization:
 
         return reduced_point
 
-    # def outlier_plot(self):
+    def outlier_plot(self):
+        for element in self.OUTLIERS:
+            plt.scatter(element[0], element[0], facecolors='none', edgecolors='r', marker='o')
+        for element in self.NON_OUTLIERS:
+            plt.scatter(element[0], element[1], facecolors='none', edgecolors='b', marker = 'o')
+
+        plt.show()

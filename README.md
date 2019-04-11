@@ -24,12 +24,24 @@ custom threshold value and concluding if a point represents an outlier or not- i
 The default threshold value is set to **1.5** and can be changed in the ***LOF.py*** script by changing the ***THRESH*** class
 variable.
 
-**Visualization (Work in Progress)** involves applying dimensional reduction to the points and reduce the number of attributes to 2. This helps in plotting on a 2-D graph with points divided into two classes.
+**Visualization** involves applying dimensional reduction to the points and reduce the number of attributes to 2. This helps in plotting on a 2-D graph with points divided into two classes. The reduction is done using a modulo-i operation, where ***i***
+is the index of the point in the dataset.
 
 ## Results
 
 The current implementation of LOF using a threshold of 1.5 consistently gives an accuracy of above **85%** over various
 permutations of the dataset, with an average accuracy of **93%**.
+
+An sample run of the dataset on the first **500** samples gives:
+**Accuracy: 96%**
+**Run Time: 15 seconds**
+
+**Scatter plot after dimensional reduction:**
+
+![Scatter Plot (1000 samples)](link)
+
+All the predicted outliers are well separated from the normal points, with the outliers marked in red and the normal points
+in blue.
 
 ## Author
 ![Naren Surampudi](https://github.com/nsurampu/)
