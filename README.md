@@ -38,7 +38,7 @@ An sample run of the dataset on the first **500** samples gives:
 
 **Scatter plot after dimensional reduction:**
 
-![Scatter Plot (1000 samples)](link)
+![Scatter Plot (1000 samples)](https://github.com/nsurampu/Fraud-Detection/blob/master/sample_run(500).png)
 
 All the predicted outliers are well separated from the normal points, with the outliers marked in red and the normal points
 in blue.
