@@ -1,6 +1,6 @@
 # Fraud Detection using Local Outlier Factor
 
-This implementation of Local Outlier Factor (LOF) attempts to detecgt frauds in a given database of credit card transactions.
+This implementation of Local Outlier Factor (LOF) attempts to detect frauds in a given database of credit card transactions.
 
 The database can be found here: ![Credit Card Fraud Detection (Kaggle)](https://www.kaggle.com/mlg-ulb/creditcardfraud)
 
