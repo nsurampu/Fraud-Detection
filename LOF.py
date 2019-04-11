@@ -5,6 +5,7 @@ from multiprocessing import cpu_count
 import operator
 from collections import OrderedDict
 import itertools
+import time
 from sklearn.metrics import accuracy_score
 
 class Local_Outlier_Factor:
@@ -114,11 +115,9 @@ if __name__ == "__main__":
 
     lof_class = Local_Outlier_Factor()
 
-    credit_data = pd.read_csv('creditcard_nomralized.csv')
+    credit_data = pd.read_csv('../creditcard_nomralized.csv')
 
     y = credit_data['Class']
-    time = credit_data['Time']
-    amount = credit_data['Amount']
 
     req_cols = []
     for i in range(1, 29):
@@ -130,11 +129,11 @@ if __name__ == "__main__":
     data = credit_data[req_cols]
     sample_data = [[0,0],[0,1],[1,1],[3,0]]   # some sample data
 
-    lof_class.DATA = data[0:1000]
+    lof_class.DATA = data[0:10000]
     lof_class.SAMPLE_DATA = sample_data
     lof_class.DATA_FLAG = True
     lof_class.K = 5
-    val_y = y[0:1000]
+    val_y = y[0:10000]
 
     pool = ThreadPool(processes=cpu_count())
 
@@ -145,7 +144,12 @@ if __name__ == "__main__":
 
     # lofs = lof_class.LOF(lof_reqs[0], lof_reqs[1], lof_class.K)
 
+    start_time = time.clock()
+
     lofs = (pool.apply_async(lof_class.container)).get()
 
+    stop_time = time.clock()
+    run_time = stop_time - start_time
     # print(lofs)
-    print(accuracy_score(lofs, val_y))
+    print("Accuracy: " + str(accuracy_score(lofs, val_y)))
+    print("Time: " + str(run_time))
