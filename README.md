@@ -21,16 +21,16 @@ custom threshold value and concluding if a point represents an outlier or not- i
 5. Calculating ***Local Outlier Factor (LOF)*** of point using RD and LRD.
 6. Comparing LOF with a threshold value. If LOF > threshold, then the point most probably is an outlier/fraud.
 
-The default threshold value is set to **1.5** and can be changed in the ***LOF.py*** script by changing the ***THRESH*** class
-variable.
+The default threshold value is set to **1.5** for the credit data, while it is **1** for a sample data of four 2-D points.
+The threshold value can be changed using ***THRESH*** and the sample data can be toggled using ***DATA_FLAG***.
+The default value for K is set to **2** which can be changes using ***K***.
 
 **Visualization** involves applying dimensional reduction to the points and reduce the number of attributes to 2. This helps in plotting on a 2-D graph with points divided into two classes. The reduction is done using a modulo-i operation, where ***i***
 is the index of the point in the dataset.
 
 ## Results
 
-The current implementation of LOF using a threshold of 1.5 consistently gives an accuracy of above **85%** over various
-permutations of the dataset, with an average accuracy of **93%**.
+The current implementation of LOF using a threshold of 1.5 and K = 5 consistently gives an accuracy of above **85%** over various permutations of the dataset, with an average accuracy of **93%**.
 
 An sample run of the dataset on the first **500** samples gives:
 <br>**Accuracy: 96%**

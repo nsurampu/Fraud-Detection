@@ -14,11 +14,11 @@ visuals = visualization.Visualization()
 class Local_Outlier_Factor:
 
     def __init__(self):
-        self.K = 0
+        self.K = 2
         self.DATA = None
         self.SAMPLE_DATA = None
         self.DATA_FLAG = True
-        self.THRESH = 1.5
+        self.THRESH = 1
         self.REDUCED_POINTS = []
 
     def neighborhood(self):
@@ -137,11 +137,13 @@ if __name__ == "__main__":
     data = credit_data[req_cols]
     sample_data = [[0,0],[0,1],[1,1],[3,0]]   # some sample data
 
-    lof_class.DATA = data[0:500]
+    lof_class.DATA = data[0:10000]
     lof_class.SAMPLE_DATA = sample_data
-    lof_class.DATA_FLAG = True
-    lof_class.K = 5
-    val_y = y[0:500]
+    lof_class.DATA_FLAG = False
+    if lof_class.DATA_FLAG:
+        lof_class.K = 20
+        lof_class.THRESH = 1.5
+    val_y = y[0:10000]
 
     pool = ThreadPool(processes=cpu_count())
 
@@ -159,6 +161,8 @@ if __name__ == "__main__":
     stop_time = time.clock()
     run_time = stop_time - start_time
     # print(lofs)
-    print("Accuracy: " + str(accuracy_score(lofs, val_y)))
+    if lof_class.DATA_FLAG:
+        print("Accuracy: " + str(accuracy_score(lofs, val_y)))
+
     print("Time: " + str(run_time))
     visuals.outlier_plot()
