@@ -7,6 +7,7 @@ def normalize(x):
     except :
         raise
 
+#   The naome of the dataset downloaded from Kaggle
 credit_data = pd.read_csv('creditcard.csv')
 
 norm_cols = []
@@ -23,4 +24,5 @@ normalized_data['Time'] = time
 normalized_data['Amount'] = amount
 normalized_data['Class'] = y
 
-normalized_data.to_csv('creditcard_nomralized.csv', index=False)
+#   Storing the normalized data in a new csv.
+normalized_data.to_csv('creditcard_normalized.csv', index=False)

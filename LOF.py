@@ -9,9 +9,31 @@ import time
 from sklearn.metrics import accuracy_score
 import visualization
 
+#   Creating Visualization() object for calling methods
 visuals = visualization.Visualization()
 
 class Local_Outlier_Factor:
+    """
+    This class contains methods that are used for calculating the required parameters
+    and values for the LOF of points in a given dataset. The points are accordingly marked
+    as outliers depending on the threshold value set.
+
+    Attributes
+    ----------
+    K : int
+        The number of points in the neighborhood of a give point.
+    DATA : pandas dataframe
+        Dataset to be operated upon.
+    SAMPLE_DATA : list
+        A sample set of 2-D points.
+    DATA_FLAG : bool
+        A flag for triggering usage of actual/sample dataset.
+    THRESH : float
+        Threshold value for marking outliers.
+    REDUCED_POINTS : list
+        List of dimensionally reduced points.
+
+    """
 
     def __init__(self):
         self.K = 2
@@ -22,6 +44,16 @@ class Local_Outlier_Factor:
         self.REDUCED_POINTS = []
 
     def neighborhood(self):
+        """
+        A method that performs operations required for calculating the LOFs of points in
+        a some neighborhood.
+
+        Returns
+        -------
+        type list
+            A list consisting of LRDs and neighbors of points.
+
+        """
         if self.DATA_FLAG:
             val_data = self.DATA.values.tolist()
         else:
@@ -55,6 +87,22 @@ class Local_Outlier_Factor:
         return [lrds, neighbors_dict]
 
     def K_element_dist(self, read_index1, K):
+        """
+        A method that calculates the distance of the Kth neighbor.
+
+        Parameters
+        ----------
+        read_index1 : int
+            Index of point to be used..
+        K : int
+            Number of neighbors.
+
+        Returns
+        -------
+        type float
+            Distance of Kth neighbor for passed point.
+
+        """
         if self.DATA_FLAG:
             val_data = self.DATA.values.tolist()
         else:
@@ -75,6 +123,22 @@ class Local_Outlier_Factor:
         return k_dists[-1]
 
     def LRD(self, neighbors, K):
+        """
+        THis method calculates the LRD of a given point.
+
+        Parameters
+        ----------
+        neighbors : list
+            List of neighbors and their distances from the given point.
+        K : type
+            Number of neighbors.
+
+        Returns
+        -------
+        type float
+            LRD of the given point.
+
+        """
         k_nearest_count = len(neighbors)
         reach_distance_sum = self.reach_distance(neighbors, self.K)
         lrd = k_nearest_count / reach_distance_sum
@@ -82,6 +146,22 @@ class Local_Outlier_Factor:
         return lrd
 
     def reach_distance(self, neighbors, K):
+        """
+        This method calculates the reach distance of a point from it's neighbors.
+
+        Parameters
+        ----------
+        neighbors : list
+            List of neighbors and their distances from the given point.
+        K : type
+            Number of neighbors.
+
+        Returns
+        -------
+        type float
+            The total reach distance of a point from it's neighbors.
+
+        """
         rds = []
         for element in neighbors:
             rd = max(self.K_element_dist(element[0], self.K), element[1])
@@ -90,6 +170,25 @@ class Local_Outlier_Factor:
         return sum(rds)
 
     def LOF(self, lrds, neighbors_dict, K):
+        """
+        This method calculates the LOF of a point and determines if the point is an
+        outlier or not.
+
+        Parameters
+        ----------
+        lrds : list
+            List of LRDs of points.
+        neighbors_dict : dict
+            Dictionary of points and their respective K neighbors.
+        K : int
+            Number of neighbors.
+
+        Returns
+        -------
+        type list
+            List of LOFs of points.
+
+        """
         lofs = []
         # print(neighbors_dict)
         for element in neighbors_dict.keys():
@@ -114,6 +213,16 @@ class Local_Outlier_Factor:
         return lofs
 
     def container(self):
+        """
+        This method acts a container method for calling all the required methods together
+        while operating in a thread pool.
+
+        Returns
+        -------
+        type list
+            List of LOFs of points.
+
+        """
         lof_reqs = self.neighborhood()
         lofs = self.LOF(lof_reqs[0], lof_reqs[1], self.K)
 
@@ -123,7 +232,7 @@ if __name__ == "__main__":
 
     lof_class = Local_Outlier_Factor()
 
-    credit_data = pd.read_csv('../creditcard_nomralized.csv')
+    credit_data = pd.read_csv('../creditcard_normalized.csv')
 
     y = credit_data['Class']
 
@@ -138,21 +247,15 @@ if __name__ == "__main__":
     sample_data = [[0,0],[0,1],[1,1],[3,0]]   # some sample data
 
     lof_class.DATA = data[0:10000]
-    lof_class.SAMPLE_DATA = sample_data
-    lof_class.DATA_FLAG = False
-    if lof_class.DATA_FLAG:
-        lof_class.K = 20
-        lof_class.THRESH = 1.5
     val_y = y[0:10000]
 
+    lof_class.SAMPLE_DATA = sample_data
+    lof_class.DATA_FLAG = True
+    if lof_class.DATA_FLAG:
+        lof_class.K = 10
+        lof_class.THRESH = 1.5
+
     pool = ThreadPool(processes=cpu_count())
-
-    # lof_reqs = (pool.apply_async(lof_class.neighborhood)).get()
-
-    # print(type(neighbors))
-    # print(data.values.tolist()[0])
-
-    # lofs = lof_class.LOF(lof_reqs[0], lof_reqs[1], lof_class.K)
 
     start_time = time.clock()
 
@@ -160,7 +263,7 @@ if __name__ == "__main__":
 
     stop_time = time.clock()
     run_time = stop_time - start_time
-    # print(lofs)
+
     if lof_class.DATA_FLAG:
         print("Accuracy: " + str(accuracy_score(lofs, val_y)))
 
