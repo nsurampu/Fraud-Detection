@@ -246,14 +246,18 @@ if __name__ == "__main__":
     data = credit_data[req_cols]
     sample_data = [[0,0],[0,1],[1,1],[3,0]]   # some sample data
 
-    lof_class.DATA = data[0:10000]
-    val_y = y[0:10000]
+    n = 1000
+
+    lof_class.DATA = data[0:n]
+    val_y = y[0:n]
 
     lof_class.SAMPLE_DATA = sample_data
     lof_class.DATA_FLAG = True
     if lof_class.DATA_FLAG:
-        lof_class.K = 10
+        lof_class.K = 5
         lof_class.THRESH = 1.5
+
+    visuals.K = lof_class.K
 
     pool = ThreadPool(processes=cpu_count())
 

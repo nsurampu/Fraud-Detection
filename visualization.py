@@ -18,6 +18,7 @@ class Visualization:
     def __init__(self):
         self.OUTLIERS = []
         self.NON_OUTLIERS = []
+        self.K = 1
 
     def dimension_reduction(self, point):
         """
@@ -72,4 +73,5 @@ class Visualization:
         for element in self.NON_OUTLIERS:
             plt.scatter(element[0], element[1], facecolors='none', edgecolors='b', marker = 'o')
 
+        plt.xlabel("K = " + str(self.K))
         plt.show()
