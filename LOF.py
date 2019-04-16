@@ -246,7 +246,7 @@ if __name__ == "__main__":
     data = credit_data[req_cols]
     sample_data = [[0,0],[0,1],[1,1],[3,0]]   # some sample data
 
-    n = 1000
+    n = 100
 
     lof_class.DATA = data[0:n]
     val_y = y[0:n]
