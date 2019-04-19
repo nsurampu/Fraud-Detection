@@ -64,7 +64,8 @@ class Local_Outlier_Factor:
         neighbors_dict = {}
         reduced_points = []
         for reading1 in val_data:
-            self.REDUCED_POINTS.append(visuals.dimension_reduction(reading1))
+            # self.REDUCED_POINTS.append(visuals.dimension_reduction(reading1))
+            self.REDUCED_POINTS.append(visuals.PCA_reduction(reading1))
             neighbors = {}
             neighbors_dict[read_index1] = []
             read_index2 = 0
@@ -246,7 +247,7 @@ if __name__ == "__main__":
     data = credit_data[req_cols]
     sample_data = [[0,0],[0,1],[1,1],[3,0]]   # some sample data
 
-    n = 100
+    n = 1000
 
     lof_class.DATA = data[0:n]
     val_y = y[0:n]
@@ -254,7 +255,7 @@ if __name__ == "__main__":
     lof_class.SAMPLE_DATA = sample_data
     lof_class.DATA_FLAG = True
     if lof_class.DATA_FLAG:
-        lof_class.K = 5
+        lof_class.K = 2
         lof_class.THRESH = 1.5
 
     visuals.K = lof_class.K

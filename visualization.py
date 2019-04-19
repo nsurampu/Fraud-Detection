@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import math
+from sklearn.decomposition import PCA
+import numpy as np
 
 class Visualization:
     """
@@ -57,9 +59,37 @@ class Visualization:
 
         return reduced_point
 
+    def PCA_reduction(self, point):
+        """
+        This method performs PCA analysis and returns a 2-D reduced point
+
+        Parameters
+        ----------
+        point : list
+            The point to be reduced.
+
+        Returns
+        -------
+        type : list
+            The reduced point in 2-D.
+
+        """
+
+        temp_point = []
+
+        for i in range(0, len(point)-1, 2):
+                temp_point.append([point[i], point[i+1]])
+
+        X = np.array(temp_point)
+        pca = PCA(n_components=2)
+        pca.fit(X)
+        reduced_point = pca.singular_values_
+
+        return reduced_point
+
     def outlier_plot(self):
         """
-        This mehtod takes the points marked as outliers and non-outliers and plots them as
+        This method takes the points marked as outliers and non-outliers and plots them as
         a scatter plot.
 
         Returns
@@ -69,7 +99,7 @@ class Visualization:
 
         """
         for element in self.OUTLIERS:
-            plt.scatter(element[0], element[0], facecolors='none', edgecolors='r', marker='o')
+            plt.scatter(element[0], element[1], facecolors='none', edgecolors='r', marker='o')
         for element in self.NON_OUTLIERS:
             plt.scatter(element[0], element[1], facecolors='none', edgecolors='b', marker = 'o')
 
